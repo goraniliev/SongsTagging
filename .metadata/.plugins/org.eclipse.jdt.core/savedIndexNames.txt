@@ -1,0 +1,23 @@
+INDEX VERSION 1.127+/home/goran/git/SongsTagging/.metadata/.plugins/org.eclipse.jdt.core
+3044109871.index
+3813932719.index
+2012817101.index
+991928210.index
+168707421.index
+1465409570.index
+2700860804.index
+3560972682.index
+809454428.index
+250608267.index
+1868210818.index
+2085304712.index
+3340964692.index
+101541413.index
+2172459069.index
+3642354696.index
+57721372.index
+2918001105.index
+3449759030.index
+3495869341.index
+3560209514.index
+3844956757.index
