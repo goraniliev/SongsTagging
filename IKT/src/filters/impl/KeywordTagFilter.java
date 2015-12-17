@@ -22,9 +22,9 @@ public class KeywordTagFilter extends AbstractTagFilter {
 
 	@Override
 	public Tag[] filter(Tag[] tags) {
-		//Tag[] finalTags = FilterFactory.getFinalTags();
-		Tag[] finalTags = new Tag[1];
-		finalTags[0] = new Tag("pop", null, null);
+		Tag[] finalTags = FilterFactory.getFinalTags();
+		/*Tag[] finalTags = new Tag[1];
+		finalTags[0] = new Tag("pop", null, null);*/
 		Set<Tag> newTags = new HashSet<Tag>();
 		for (Tag tag : tags) {
 			for (Tag finalTag : finalTags) {
