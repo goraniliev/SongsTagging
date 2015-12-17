@@ -5,12 +5,14 @@ public class Track {
 	private String name;
 	private Integer listeners;
 	private Integer playcount;
+	private Artist artist;
 	private Wiki wiki;
 
-	public Track(String name, Integer listeners, Integer playcount, Wiki wiki) {
+	public Track(String name, Integer listeners, Integer playcount, Artist artist, Wiki wiki) {
 		this.name = name;
 		this.listeners = listeners;
 		this.playcount = playcount;
+		this.artist = artist;
 		this.wiki = wiki;
 	}
 
@@ -36,6 +38,14 @@ public class Track {
 
 	public void setPlaycount(Integer playcount) {
 		this.playcount = playcount;
+	}
+
+	public Artist getArtist() {
+		return artist;
+	}
+
+	public void setArtist(Artist artist) {
+		this.artist = artist;
 	}
 
 	public Wiki getWiki() {
