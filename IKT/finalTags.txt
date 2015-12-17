@@ -2,7 +2,7 @@ love
 war
 violence
 happy
-teenage
+teen
 kids
 christmas
 fairytale
@@ -110,3 +110,16 @@ romantic
 dubstep
 underground
 magic
+adult
+teen
+epic
+orchestral
+child
+unique
+duet
+silly
+gentle
+cry
+creepy
+orgasmic
+hit
