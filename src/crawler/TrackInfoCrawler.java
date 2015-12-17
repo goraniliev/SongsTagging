@@ -57,7 +57,6 @@ public class TrackInfoCrawler {
 	}
 
 	public static Track getTrackInfo(String query) throws IllegalStateException, IOException {
-		
 		HttpClient client = new DefaultHttpClient();
 		HttpGet getMethod = new HttpGet(query);
 		HttpResponse response = client.execute(getMethod);
