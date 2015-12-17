@@ -89,16 +89,13 @@ public class TrackInfoCrawler {
 		
 		Track track = getTrackInfo(query);
 		if (track != null) {
-			// System.out.println("ENTERED 0");
 			if (track.getListeners() != null) {
-				// System.out.println("ENTERED 1");
 				trackInfo.setNumListeners(track.getListeners());	
 			} else {
 				return null;
 			}
 			
 			if (track.getPlaycount() != null) {
-				// System.out.println("ENTERED 2");
 				trackInfo.setPlayCount(track.getPlaycount());
 			} else {
 				return null;
@@ -117,7 +114,6 @@ public class TrackInfoCrawler {
 		
 		Tags tags = getTrackTags(query);
 		if (tags != null && tags.getTag() != null && tags.getTag().length > 0) { 
-			// System.out.println("ENTERED 3");
 			Tag[] filteredTags = FilterFactory.getTagFilter().filterTags(tags.getTag());
 			List<String> filteredTagsNames = new ArrayList<>();
 			for (Tag tag : filteredTags) {
