@@ -30,21 +30,36 @@ public class TrackInfoCrawler {
 
 	public static void main(String[] args) throws IllegalStateException, IOException {
 		
-		String artist = "Metallica";
-		String trackName = "Harvester Of Sorrow";
+		/*
+		String artist = "Der Mystic";
+		String trackName = "Tangle Of Aspens";
 		TrackAllInfo track = allTrackInformations(artist, trackName);
 		if (track != null) {
 			System.out.println(track);
 		} else {
 			System.out.println("FAILED IN READING TRACK INFO!");
 		}
+		*/
+	
+		List<TrackAllInfo> tracks = readTracks("unique_tracks.txt");
+		System.out.println("Number of tracks:" + tracks.size());
+		System.out.println(tracks);
 	}
 	
-	public static List<TrackAllInfo> readSongs(String fileName) throws IOException {
+	public static List<TrackAllInfo> readTracks(String fileName) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		String line = "";
 		List<TrackAllInfo> result = new ArrayList<>();
+		int counter = 0;
 		while ((line = br.readLine()) != null) {
+			if (counter % 10 == 0) {
+				System.out.println("Number of tracks crawled: " + counter);
+			}
+			if (counter == 100) {
+				break;
+			}
+			counter++;
+			
 			String[] parts = line.split("<SEP>");
 			String artist = parts[2];
 			String trackName = parts[3];
@@ -88,13 +103,6 @@ public class TrackInfoCrawler {
 			} else {
 				return null;
 			}
-			
-			if (track.getWiki() != null) {
-				// System.out.println("ENTERED 3");
-				trackInfo.setPublishedDate(track.getWiki().getPublishedDate());
-			} else {
-				return null;
-			}
 		} else {
 			return null;
 		}
@@ -109,7 +117,7 @@ public class TrackInfoCrawler {
 		
 		Tags tags = getTrackTags(query);
 		if (tags != null && tags.getTag() != null && tags.getTag().length > 0) { 
-			// System.out.println("ENTERED 4");
+			// System.out.println("ENTERED 3");
 			Tag[] filteredTags = FilterFactory.getTagFilter().filterTags(tags.getTag());
 			List<String> filteredTagsNames = new ArrayList<>();
 			for (Tag tag : filteredTags) {
