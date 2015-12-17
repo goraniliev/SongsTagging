@@ -29,18 +29,6 @@ import filters.FilterFactory;
 public class TrackInfoCrawler {
 
 	public static void main(String[] args) throws IllegalStateException, IOException {
-		
-		/*
-		String artist = "Der Mystic";
-		String trackName = "Tangle Of Aspens";
-		TrackAllInfo track = allTrackInformations(artist, trackName);
-		if (track != null) {
-			System.out.println(track);
-		} else {
-			System.out.println("FAILED IN READING TRACK INFO!");
-		}
-		*/
-	
 		List<TrackAllInfo> tracks = readTracks("unique_tracks.txt");
 		System.out.println("Number of tracks:" + tracks.size());
 		System.out.println(tracks);
