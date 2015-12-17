@@ -3,14 +3,12 @@ package utility;
 public class Track {
 
 	private String name;
-	private Tags toptags;
 	private Integer listeners;
 	private Integer playcount;
 	private Wiki wiki;
 
-	public Track(String name, Tags toptags, Integer listeners, Integer playcount, Wiki wiki) {
+	public Track(String name, Integer listeners, Integer playcount, Wiki wiki) {
 		this.name = name;
-		this.toptags = toptags;
 		this.listeners = listeners;
 		this.playcount = playcount;
 		this.wiki = wiki;
@@ -22,14 +20,6 @@ public class Track {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Tags getToptags() {
-		return toptags;
-	}
-
-	public void setToptags(Tags toptags) {
-		this.toptags = toptags;
 	}
 
 	public Integer getListeners() {
