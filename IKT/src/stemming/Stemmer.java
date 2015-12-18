@@ -4,8 +4,9 @@ import org.tartarus.snowball.ext.englishStemmer;
 
 public class Stemmer {
 
-	static String stem(String word) {
-		englishStemmer stemmer = new englishStemmer();
+	private static englishStemmer stemmer = new englishStemmer();
+	
+	public static String stem(String word) {
 		stemmer.setCurrent(word);
 		if (stemmer.stem()){
 		    return stemmer.getCurrent();

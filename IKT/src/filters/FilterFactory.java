@@ -8,6 +8,10 @@ import readers.FinalTagsAndSynonymsReader;
 public class FilterFactory {
 	private static FinalTagsAndSynonymsReader reader = FinalTagsAndSynonymsReader.getInstance();
 	
+	private FilterFactory(){
+		
+	}
+	
 	public static TagFilter getTagFilter() {
 		return new KeywordTagFilter();
 	}

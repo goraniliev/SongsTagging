@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import filters.FilterFactory;
+import stemming.Stemmer;
 import utility.Tag;
 
 public class FinalTagsAndSynonymsReader {
@@ -32,10 +34,10 @@ public class FinalTagsAndSynonymsReader {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				StringTokenizer st = new StringTokenizer(line);
-				String word = st.nextToken();
+				String word = Stemmer.stem(st.nextToken());
 				finalTagsAndSynonyms.put(word, word);
 				while(st.hasMoreTokens()){
-					finalTagsAndSynonyms.put(st.nextToken(), word);
+					finalTagsAndSynonyms.put(Stemmer.stem(st.nextToken()), word);
 				}
 			}
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
