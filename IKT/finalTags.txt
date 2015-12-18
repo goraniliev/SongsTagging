@@ -1,14 +1,14 @@
-love
-war
-violence
-happy
-teen
-kids
-christmas
-fairytale
-dance
-sad
-tragic
+love affection appreciation devotion emotion foundness friendship infatuation lust passion tenderness yearning adulation allegiance amour ardor
+war battle bloodshed combat conflict hostility strife strike struggle warfare
+violence assault attack brutality clash cruelty disorder disturbance fighting rampage terrorism
+happy cheerful contented delighted ecstatic elated glad joyful joyous jubilant lively merry overjoyed peaceful pleasant pleased thrilled upbeat
+teen juvenile youngster
+kids baby child infant youth
+christmas xmas yule yuletide
+fairytale absurd fictional imaginative unreal dreamlike illusory
+dance disco samba tango waltz
+sad bitter dismal heartbroken melancholy somber pessimistic mournful sorrowful sorry wistful dejected despairing doleful glum heartsick heavyhearted hurting
+tragic appalling awful calamitous cataclysmic deadly deplorable destructive dire disastrous
 chill
 beautiful
 study
