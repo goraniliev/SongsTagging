@@ -41,4 +41,8 @@ public class Tag {
 		return this.count + " " + this.name;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return this.getName().equals(((Tag)obj).getName());
+	}
 }

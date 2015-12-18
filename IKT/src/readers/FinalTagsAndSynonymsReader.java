@@ -50,5 +50,9 @@ public class FinalTagsAndSynonymsReader {
 	public String[] getTags() {
 		return finalTagsAndSynonyms.keySet().toArray(new String[finalTagsAndSynonyms.size()]);
 	}
+
+	public Map<String, String> getTagsAndSynonyms() {
+		return finalTagsAndSynonyms;
+	}
 	
 }
