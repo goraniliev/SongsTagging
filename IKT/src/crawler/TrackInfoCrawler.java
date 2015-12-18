@@ -29,12 +29,12 @@ import filters.FilterFactory;
 public class TrackInfoCrawler {
 
 	public static void main(String[] args) throws IllegalStateException, IOException {
-		List<TrackAllInfo> tracks = readTracks("unique_tracks.txt");
+		List<TrackAllInfo> tracks = readTracks("unique_tracks.txt", 3);
 		System.out.println("Number of tracks:" + tracks.size());
 		System.out.println(tracks);
 	}
 	
-	public static List<TrackAllInfo> readTracks(String fileName) throws IOException {
+	public static List<TrackAllInfo> readTracks(String fileName, int maxSongs) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		String line = "";
 		List<TrackAllInfo> result = new ArrayList<>();
@@ -43,7 +43,7 @@ public class TrackInfoCrawler {
 			if (counter % 10 == 0) {
 				System.out.println("Number of tracks crawled: " + counter);
 			}
-			if (counter == 100) {
+			if (counter == maxSongs) {
 				break;
 			}
 			counter++;
