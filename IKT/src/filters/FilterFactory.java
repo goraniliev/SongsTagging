@@ -1,12 +1,16 @@
 package filters;
 
+import java.util.Map;
+
 import filters.impl.KeywordTagFilter;
 import readers.FinalTagsAndSynonymsReader;
-import readers.FinalTagsReader;
-import utility.Tag;
 
 public class FilterFactory {
 	private static FinalTagsAndSynonymsReader reader = FinalTagsAndSynonymsReader.getInstance();
+	
+	private FilterFactory(){
+		
+	}
 	
 	public static TagFilter getTagFilter() {
 		return new KeywordTagFilter();
@@ -14,5 +18,9 @@ public class FilterFactory {
 	
 	public static String[] getFinalTags() {
 		return reader.getTags();
+	}
+	
+	public static Map<String, String> getFinalTagsAndSynonyms(){
+		return reader.getTagsAndSynonyms();
 	}
 }
