@@ -13,18 +13,18 @@ public class KeywordTagFilter extends AbstractTagFilter {
 	public KeywordTagFilter() {	
 		super();
 		finalTags = new HashSet<String>();
-		Tag[] tags = FilterFactory.getFinalTags();
-		for (Tag tag : tags) {
-			finalTags.add(tag.getName());
+		String[] tags = FilterFactory.getFinalTags();
+		for (String tag : tags) {
+			finalTags.add(tag);
 		}
 	}
 	
 	public KeywordTagFilter(TagFilter chainFilter) {
 		super(chainFilter);
 		finalTags = new HashSet<String>();
-		Tag[] tags = FilterFactory.getFinalTags();
-		for (Tag tag : tags) {
-			finalTags.add(tag.getName());
+		String[] tags = FilterFactory.getFinalTags();
+		for (String tag : tags) {
+			finalTags.add(tag);
 		}
 	}
 
