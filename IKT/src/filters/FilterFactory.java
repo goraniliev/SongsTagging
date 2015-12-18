@@ -1,6 +1,7 @@
 package filters;
 
 import java.util.Map;
+import java.util.Set;
 
 import filters.impl.KeywordTagFilter;
 import readers.FinalTagsAndSynonymsReader;
@@ -20,7 +21,7 @@ public class FilterFactory {
 		return reader.getTags();
 	}
 	
-	public static Map<String, String> getFinalTagsAndSynonyms(){
+	public static Map<String, Set<String>> getFinalTagsAndSynonyms(){
 		return reader.getTagsAndSynonyms();
 	}
 }

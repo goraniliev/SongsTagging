@@ -1,6 +1,7 @@
 package filters.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import utility.Tag;
 
 public class SynonymsMappingTagFilter extends AbstractTagFilter {
 
-	Map<String, String> finalTagsAndSynonyms;
+	Map<String, Set<String>> finalTagsAndSynonyms;
 	
 	public SynonymsMappingTagFilter() {
 		super();
@@ -20,7 +21,10 @@ public class SynonymsMappingTagFilter extends AbstractTagFilter {
 	public Tag[] filter(Tag[] tags) {
 		Set<Tag> newTags = new HashSet<Tag>();
 		for(int i=0;i<tags.length;++i){
-			newTags.add(new Tag(finalTagsAndSynonyms.get(tags[i].getName()), null, null));
+			Set<String> baseTags = finalTagsAndSynonyms.get(tags[i].getName());
+			for(String baseTag : baseTags){
+				newTags.add(new Tag(baseTag, null, null));
+			}
 		}
 		return newTags.toArray(new Tag[newTags.size()]);
 	}
