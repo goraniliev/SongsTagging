@@ -1,7 +1,6 @@
 package dbUtilities;
 
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +17,9 @@ public class Selects extends DbAccess {
 	}
 	
 	private double getAverageHotnessForTag(String tag) throws SQLException {
+		/**
+		 * For a given tag returns the average of hotnesses of all songs to which this tag is attached.
+		 */
 		double res = 0;
 		
 		String sql = "{call get_average_hotness_for_tag(?)}";
@@ -35,6 +37,12 @@ public class Selects extends DbAccess {
 	}
 	
 	public double predictedHotnessForGivenTags(List<String> tags) throws SQLException {
+		/**
+		 * For a given list of tags, predicts how hot would be a song which will have ale these tags. Returs the predicted hotness.
+		 */
+		if(tags == null || tags.size() == 0) {
+			return 0.1;
+		}
 		double avg = 0.0;
 		
 		for(String tag : tags) {
@@ -43,18 +51,18 @@ public class Selects extends DbAccess {
 		
 		conn.close();
 		
+		if(avg - 0.0 < 0.0000001) {
+			return 0.2;
+		}
+		
 		return 1.0 * avg / tags.size();
 	}
 	
 	public double predictedHotnessForGivenTrack(TrackAllInfo track) throws SQLException {
+		/**
+		 * For a given track as argument returns the predicted hotness for that track.
+		 */
 		return predictedHotnessForGivenTags(track.getTags());
 	}
 	
-	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		Selects s = new Selects();
-		List<String> l = new LinkedList<String>();
-		l.add("dubstep");
-		System.out.println(s.predictedHotnessForGivenTags(l));
-	}
-
 }
