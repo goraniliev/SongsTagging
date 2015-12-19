@@ -29,13 +29,16 @@ import filters.FilterFactory;
 public class TrackInfoCrawler {
 
 	public static void main(String[] args) throws IllegalStateException, IOException {
-		List<TrackAllInfo> tracks = readTracks("unique_tracks.txt", 3);
+		List<TrackAllInfo> tracks = crawl("unique_tracks.txt", 0, 3);
 		System.out.println("Number of tracks:" + tracks.size());
 		System.out.println(tracks);
 	}
 	
-	public static List<TrackAllInfo> readTracks(String fileName, int maxSongs) throws IOException {
+	public static List<TrackAllInfo> crawl(String fileName, int start, int end) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		for (int i = 0; i < start; i++) {
+			br.readLine();
+		}
 		String line = "";
 		List<TrackAllInfo> result = new ArrayList<>();
 		int counter = 0;
@@ -43,10 +46,9 @@ public class TrackInfoCrawler {
 			if (counter % 10 == 0) {
 				System.out.println("Number of tracks crawled: " + counter);
 			}
-			if (counter == maxSongs) {
+			if (counter == (end - start + 1)) {
 				break;
 			}
-			counter++;
 			
 			String[] parts = line.split("<SEP>");
 			String artist = parts[2];
@@ -55,6 +57,8 @@ public class TrackInfoCrawler {
 			if (trackInfo != null) {
 				result.add(trackInfo);
 			}
+			
+			counter++;
 		}
 		br.close();
 		return result;
