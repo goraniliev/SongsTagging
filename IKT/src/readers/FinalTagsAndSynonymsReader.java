@@ -7,20 +7,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
-import filters.FilterFactory;
 import stemming.Stemmer;
-import utility.Tag;
 
 public class FinalTagsAndSynonymsReader {
 	
-	private Map<String, String> finalTagsAndSynonyms;
+	private Map<String, Set<String>> finalTagsAndSynonyms;
 	private static FinalTagsAndSynonymsReader instance = new FinalTagsAndSynonymsReader();
 	
 	private FinalTagsAndSynonymsReader(){
-		finalTagsAndSynonyms = new HashMap<String, String>();
+		finalTagsAndSynonyms = new HashMap<String, Set<String>>();
 		read();
 	}
 	
@@ -35,9 +35,10 @@ public class FinalTagsAndSynonymsReader {
 			while ((line = reader.readLine()) != null) {
 				StringTokenizer st = new StringTokenizer(line);
 				String word = Stemmer.stem(st.nextToken());
-				finalTagsAndSynonyms.put(word, word);
+				finalTagsAndSynonyms.put(word, addBaseTag(word, word));
 				while(st.hasMoreTokens()){
-					finalTagsAndSynonyms.put(Stemmer.stem(st.nextToken()), word);
+					String synonym = Stemmer.stem(st.nextToken());
+					finalTagsAndSynonyms.put(synonym, addBaseTag(word, synonym));
 				}
 			}
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
@@ -48,12 +49,21 @@ public class FinalTagsAndSynonymsReader {
 			e.printStackTrace();
 		}
 	}
+	
+	private Set<String> addBaseTag(String baseTag, String synonym){
+		Set<String> baseTags = finalTagsAndSynonyms.get(synonym);
+		if(baseTags == null){
+			baseTags = new HashSet<String>();
+		}
+		baseTags.add(baseTag);
+		return baseTags;
+	}
 
 	public String[] getTags() {
 		return finalTagsAndSynonyms.keySet().toArray(new String[finalTagsAndSynonyms.size()]);
 	}
 
-	public Map<String, String> getTagsAndSynonyms() {
+	public Map<String, Set<String>> getTagsAndSynonyms() {
 		return finalTagsAndSynonyms;
 	}
 	
