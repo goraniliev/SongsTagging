@@ -5,7 +5,6 @@ import java.util.Set;
 
 import filters.FilterFactory;
 import filters.TagFilter;
-import stemming.Stemmer;
 import utility.Tag;
 
 public class KeywordTagFilter extends AbstractTagFilter {
