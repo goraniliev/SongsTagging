@@ -10,10 +10,7 @@ import java.util.List;
 
 import utility.TrackAllInfo;
 
-public class Selects {
-	String pass = "goranpass";
-	String userDB = "root";
-	Connection conn =  null;
+public class Selects extends DbAccess {
 	
 	public Selects() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
