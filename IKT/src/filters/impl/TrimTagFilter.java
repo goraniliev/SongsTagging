@@ -40,6 +40,9 @@ public class TrimTagFilter extends AbstractTagFilter {
 
 	private static String trim(String tag) {
 		int count = 0;
+		if(tag.length() == 0){
+			return tag;
+		}
 		char lastChar = tag.charAt(0);
 		boolean flag = true;
 		StringBuilder sb = new StringBuilder();
