@@ -1,5 +1,6 @@
-package filters;
+package filters.impl;
 
+import filters.TagFilter;
 import utility.Tag;
 
 public class StandardTagFilter implements TagFilter {

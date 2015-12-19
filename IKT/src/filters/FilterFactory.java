@@ -6,6 +6,7 @@ import java.util.Set;
 import filters.impl.CleanerTagFilter;
 import filters.impl.ExtractTagFilter;
 import filters.impl.KeywordTagFilter;
+import filters.impl.StandardTagFilter;
 import filters.impl.StemmingTagFilter;
 import filters.impl.SynonymsMappingTagFilter;
 import filters.impl.TrimTagFilter;
@@ -16,9 +17,14 @@ public class FilterFactory {
 	private static FinalTagsAndSynonymsReader reader = FinalTagsAndSynonymsReader.getInstance();
 	private static StopTagsReader stopTagsReader = StopTagsReader.getInstance();
 	private static TagFilter filter = new TrimTagFilter(new CleanerTagFilter(new StemmingTagFilter(new KeywordTagFilter(new ExtractTagFilter(new SynonymsMappingTagFilter())))));
+	private static TagFilter filter2 = new StandardTagFilter();
 	
 	private FilterFactory(){
 		
+	}
+	
+	public static TagFilter getRawTagFilter() {
+		return filter2;
 	}
 	
 	public static TagFilter getTagFilter() {
