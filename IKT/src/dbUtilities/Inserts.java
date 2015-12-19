@@ -6,10 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Inserts {
-	String pass = "goranpass";
-	String userDB = "root";
-	Connection conn =  null;
+public class Inserts extends DbAccess{
+
 	
 	public Inserts() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
@@ -32,15 +30,16 @@ public class Inserts {
 		return last_tag_id;
 	}
 	
-	int insertSong(String name, String artist, long numPlays, long numListeners/*, String releaseDate*/) throws SQLException {
+	int insertSong(String name, String artist, long numPlays, long numListeners, double coeff/*, String releaseDate*/) throws SQLException {
 		int last_id = 0;
 		
-		String sql = "{call insert_song(?, ?, ?, ?)}";
+		String sql = "{call insert_song(?, ?, ?, ?, ?)}";
 		CallableStatement st = conn.prepareCall(sql);
 		st.setString("name", name);
 		st.setString("artist", artist);
 		st.setLong("numPlays", numPlays);
 		st.setLong("numListeners", numListeners);
+		st.setDouble("coeff", coeff);
 //		st.setString("releaseDate", releaseDate);
 		st.execute();
 		
