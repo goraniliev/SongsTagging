@@ -8,22 +8,21 @@ import filters.TagFilter;
 import utility.Tag;
 
 public class CleanerTagFilter extends AbstractTagFilter {
-	Map<String, Set<String>> finalTags;
+	Set<String> stopTags;
 	
 
 	public CleanerTagFilter() {
 		super();
-		finalTags = FilterFactory.getFinalTagsAndSynonyms();
+		stopTags = FilterFactory.getStopTags();
 	}
 
 	public CleanerTagFilter(TagFilter filter) {
 		super(filter);
+		stopTags = FilterFactory.getStopTags();
 	}
 
 	@Override
 	public Tag[] filter(Tag[] tags) {
 		return tags;
 	}
-	
-	
 }
