@@ -45,4 +45,9 @@ public class Tag {
 	public boolean equals(Object obj) {
 		return this.getName().equals(((Tag)obj).getName());
 	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }
