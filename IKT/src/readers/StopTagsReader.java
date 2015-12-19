@@ -24,7 +24,7 @@ public class StopTagsReader {
 	
 	private void read() {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("finalTags.txt"), "utf-8"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("stopTags.txt"), "utf-8"));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				tags.add(line);
