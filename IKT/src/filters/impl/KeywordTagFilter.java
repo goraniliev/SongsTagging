@@ -33,26 +33,15 @@ public class KeywordTagFilter extends AbstractTagFilter {
 	public Tag[] filter(Tag[] tags) {
 		Set<Tag> newTags = new HashSet<Tag>();
 		for (Tag tag : tags) {
-			Tag current = new Tag(stemPhrase(tag), null, null);
-			if (checkTag(current)){
-				newTags.add(current);
+			if (checkTag(tag)){
+				newTags.add(tag);
 			}
 		}
 		return newTags.toArray(new Tag[newTags.size()]);
 	}
-	
-	private String stemPhrase(Tag tag) {
-		StringBuilder sb = new StringBuilder();
-		String[] words = tag.getName().toLowerCase().split("\\W+");
-		for (String word : words) {
-			sb.append(Stemmer.stem(word));
-			sb.append(" ");
-		}
-		return sb.toString();
-	}
 
 	private boolean checkTag(Tag tag) {
-		String[] words = tag.getName().toLowerCase().split("\\W+");
+		String[] words = tag.getName().split("\\W+");
 		for (String word : words) {
 			if (finalTags.contains(word)) {
 				return true;

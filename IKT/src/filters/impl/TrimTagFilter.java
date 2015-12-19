@@ -15,7 +15,7 @@ public class TrimTagFilter extends AbstractTagFilter {
 
 	private void trim(Tag tag) {
 		StringBuilder sb = new StringBuilder();
-		String tagName = tag.getName();
+		String tagName = tag.getName().toLowerCase();
 		String[] parts = tagName.split("\\W+");
 		for (int i = 0; i < parts.length; ++i) {
 			sb.append(trim(parts[i]));

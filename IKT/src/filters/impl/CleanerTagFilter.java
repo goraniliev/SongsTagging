@@ -1,13 +1,14 @@
 package filters.impl;
 
 import java.util.Map;
+import java.util.Set;
 
 import filters.FilterFactory;
 import filters.TagFilter;
 import utility.Tag;
 
 public class CleanerTagFilter extends AbstractTagFilter {
-	Map<String, String> finalTags;
+	Map<String, Set<String>> finalTags;
 	
 
 	public CleanerTagFilter() {
