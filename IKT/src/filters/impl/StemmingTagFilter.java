@@ -1,9 +1,21 @@
 package filters.impl;
 
+import filters.TagFilter;
 import stemming.Stemmer;
 import utility.Tag;
 
 public class StemmingTagFilter extends AbstractTagFilter {
+	
+
+	public StemmingTagFilter() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public StemmingTagFilter(TagFilter filter) {
+		super(filter);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public Tag[] filter(Tag[] tags) {

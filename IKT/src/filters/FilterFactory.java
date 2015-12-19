@@ -4,14 +4,18 @@ import java.util.Map;
 import java.util.Set;
 
 import filters.impl.CleanerTagFilter;
+import filters.impl.ExtractTagFilter;
 import filters.impl.KeywordTagFilter;
+import filters.impl.StemmingTagFilter;
+import filters.impl.SynonymsMappingTagFilter;
+import filters.impl.TrimTagFilter;
 import readers.FinalTagsAndSynonymsReader;
 import readers.StopTagsReader;
 
 public class FilterFactory {
 	private static FinalTagsAndSynonymsReader reader = FinalTagsAndSynonymsReader.getInstance();
-	private static TagFilter filter = new KeywordTagFilter(new CleanerTagFilter());
 	private static StopTagsReader stopTagsReader = StopTagsReader.getInstance();
+	private static TagFilter filter = new TrimTagFilter(new CleanerTagFilter(new StemmingTagFilter(new KeywordTagFilter(new ExtractTagFilter(new SynonymsMappingTagFilter())))));
 	
 	private FilterFactory(){
 		

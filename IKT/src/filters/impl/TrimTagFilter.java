@@ -1,8 +1,21 @@
 package filters.impl;
 
+import filters.TagFilter;
 import utility.Tag;
 
 public class TrimTagFilter extends AbstractTagFilter {
+	
+	
+
+	public TrimTagFilter() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public TrimTagFilter(TagFilter filter) {
+		super(filter);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public Tag[] filter(Tag[] tags) {

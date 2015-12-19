@@ -1,5 +1,7 @@
 package filters.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +25,23 @@ public class CleanerTagFilter extends AbstractTagFilter {
 
 	@Override
 	public Tag[] filter(Tag[] tags) {
-		return tags;
+		List<Tag> newTags = new ArrayList<Tag>();
+		for (Tag tag: tags) {
+			if (checkTag(tag)) {
+				newTags.add(tag);
+			}
+		}
+		return newTags.toArray(new Tag[newTags.size()]);
+	}
+	
+	private boolean checkTag(Tag tag) {
+		if (stopTags.contains(tag.getName()))
+			return false;
+		String[] words = tag.getName().split("\\W+");
+		for (String word : words) {
+			if (stopTags.contains(word))
+				return false;
+		}
+		return true;
 	}
 }
