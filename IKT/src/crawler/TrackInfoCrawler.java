@@ -30,8 +30,6 @@ import filters.FilterFactory;
 
 public class TrackInfoCrawler {
 	
-	private static final int numThreads = 100;
-	
 	static class CrawlerThread extends Thread {
 		
 		private List<TrackAllInfo> tracks;
@@ -72,19 +70,19 @@ public class TrackInfoCrawler {
 		}
 	}
 
-	public static void main(String[] args) throws IllegalStateException, IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		/*
 		List<TrackAllInfo> tracks = crawl("unique_tracks.txt", 0, 3);
 		System.out.println("Number of tracks: " + tracks.size());
 		System.out.println(tracks);
 		*/
 		
-		List<TrackAllInfo> tracks = crawl_threaded("unique_tracks.txt", 0, 499);
+		List<TrackAllInfo> tracks = crawl_threaded("unique_tracks.txt", 0, 499, 10);
 		System.out.println("Number of tracks: " + tracks.size());
 		System.out.println(tracks);
 	}
 	
-	public static List<TrackAllInfo> crawl_threaded(String fileName, int start, int end) 
+	public static List<TrackAllInfo> crawl_threaded(String fileName, int start, int end, int numThreads) 
 			throws IOException, InterruptedException {
 		
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -169,8 +167,7 @@ public class TrackInfoCrawler {
 		return result;
 	}
 	
-	public static TrackAllInfo allTrackInformations(String artist, String trackName) 
-			throws ClientProtocolException, IOException {
+	public static TrackAllInfo allTrackInformations(String artist, String trackName) throws IOException {
 		
 		TrackAllInfo trackInfo = new TrackAllInfo();
 		trackInfo.setTrackName(trackName);
@@ -224,7 +221,7 @@ public class TrackInfoCrawler {
 		return trackInfo;
 	}
 
-	public static Track getTrackInfo(String query) throws IllegalStateException, IOException {
+	public static Track getTrackInfo(String query) throws IOException {
 		HttpClient client = new DefaultHttpClient();
 		HttpGet getMethod = new HttpGet(query);
 		HttpResponse response = client.execute(getMethod);
@@ -247,7 +244,7 @@ public class TrackInfoCrawler {
 	}
 	
 
-	public static Tags getTrackTags(String query) throws ClientProtocolException, IOException {
+	public static Tags getTrackTags(String query) throws IOException {
 		HttpClient client = new DefaultHttpClient();
 		HttpGet getMethod = new HttpGet(query);
 		HttpResponse response = client.execute(getMethod);
