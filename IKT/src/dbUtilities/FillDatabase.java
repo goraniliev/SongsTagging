@@ -128,7 +128,7 @@ public class FillDatabase {
 			}
 		}
 
-		inserts.close();
+		inserts.conn.close();
 	}
 
 	// numPlays and numListeners are 0 at the start
