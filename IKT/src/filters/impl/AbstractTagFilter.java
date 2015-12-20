@@ -15,12 +15,15 @@ public abstract class AbstractTagFilter implements TagFilter {
 	}
 
 	@Override
-	synchronized
 	public Tag[] filterTags(Tag[] tags) {
-		Tag[] newTags = filter(tags);
 		if (chainFilter != null)
-			return chainFilter.filterTags(newTags);
-		return newTags;
+			return chainFilter.filterTags(tagFilter(tags));
+		return tagFilter(tags);
+	}
+	
+	synchronized
+	public Tag[] tagFilter(Tag tags[]) {
+		return filter(tags);
 	}
 	
 	public abstract Tag[] filter(Tag[] tags);
