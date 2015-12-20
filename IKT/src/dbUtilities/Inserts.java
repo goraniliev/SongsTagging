@@ -12,7 +12,6 @@ public class Inserts extends DbAccess{
 
 	
 	public Inserts() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 	}
 
@@ -20,6 +19,8 @@ public class Inserts extends DbAccess{
 		/**
 		 * Inserts a new tag.
 		 */
+		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
+		
 		String sql = "{call insert_tag(?)}";
 		CallableStatement st = conn.prepareCall(sql);
 		st.setString("name", tagName);
@@ -32,6 +33,8 @@ public class Inserts extends DbAccess{
 		while(resultSet.next()) {
 			last_tag_id = resultSet.getInt("last_tag_id");
 		}
+		
+		conn.close();
 		return last_tag_id;
 	}
 	
@@ -41,6 +44,8 @@ public class Inserts extends DbAccess{
 		 * of plays and listeners.
 		 */
 		int last_id = 0;
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
 		
 		String sql = "{call insert_song(?, ?, ?, ?, ?)}";
 		CallableStatement st = conn.prepareCall(sql);
@@ -58,6 +63,8 @@ public class Inserts extends DbAccess{
 			last_id = resultSet.getInt("last_song_id");
 		}
 
+		conn.close();
+		
 		return last_id;
 	}
 	
@@ -66,6 +73,7 @@ public class Inserts extends DbAccess{
 		 * Inserts a new song. The number of plays and listeners is 0. The hotness is calculated based on the predict function which takes as argument
 		 * list of song's tag.
 		 */
+		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
 		
 		double hotness = Predict.predictHotnessForTags(tags);
 		System.out.printf("Predicted hotness for %s is %f\n", name, hotness);
@@ -77,12 +85,15 @@ public class Inserts extends DbAccess{
 //		st.setString("releaseDate", releaseDate);
 		st.execute();
 		
+		conn.close();
 	}
 	
 	boolean isNewTag(String tagName) throws SQLException {
 		/**
 		 * Returns true if there is already such tag in the Tag table in database.
 		 */
+		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
+		
 		String sql = "{call is_tag_present(?)}";
 		CallableStatement st = conn.prepareCall(sql);
 		st.setString("tagname", tagName);
@@ -96,6 +107,8 @@ public class Inserts extends DbAccess{
 			count = resultSet.getInt("cnt");
 		}
 		
+		conn.close();
+		
 		return count == 0;
 	}
 	
@@ -103,6 +116,8 @@ public class Inserts extends DbAccess{
 		/**
 		 * Returns tag id for given tagName.
 		 */
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
 		
 		String sql = "{call get_id_tag_by_name(?)}";
 		CallableStatement st = conn.prepareCall(sql);
@@ -117,6 +132,8 @@ public class Inserts extends DbAccess{
 			id = resultSet.getInt("id");
 		}
 		
+		conn.close();
+		
 		return id;	
 	}
 	
@@ -124,17 +141,15 @@ public class Inserts extends DbAccess{
 		/**
 		 * Inserts new row in the SongTag table in database.
 		 */
+		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
+		
 		String sql = "{call insert_song_tag(?, ?)}";
 		CallableStatement st = conn.prepareCall(sql);
 		st.setInt("idsong", idSong);
 		st.setInt("idtag", idTag);
 		st.execute();
-	}
-	
-	void close() throws SQLException {
-		/**
-		 * Close connection to database.
-		 */
+		
 		conn.close();
 	}
+	
 }

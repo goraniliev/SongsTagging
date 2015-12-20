@@ -12,7 +12,6 @@ import utility.TrackAllInfo;
 public class Selects extends DbAccess {
 	
 	public Selects() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 	}
 	
@@ -21,6 +20,8 @@ public class Selects extends DbAccess {
 		 * For a given tag returns the average of hotnesses of all songs to which this tag is attached.
 		 */
 		double res = 0;
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost/songstagging", userDB, pass);
 		
 		String sql = "{call get_average_hotness_for_tag(?)}";
 		CallableStatement st = conn.prepareCall(sql);
@@ -32,6 +33,8 @@ public class Selects extends DbAccess {
 		while(resultSet.next()) {
 			res = resultSet.getDouble("avg");
 		}
+		
+		conn.close();
 		
 		return res;
 	}
@@ -48,8 +51,6 @@ public class Selects extends DbAccess {
 		for(String tag : tags) {
 			avg += getAverageHotnessForTag(tag);
 		}
-		
-		conn.close();
 		
 		if(avg - 0.0 < 0.0000001) {
 			return 0.2;
