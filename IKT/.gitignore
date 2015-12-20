@@ -1,5 +1,4 @@
 /bin/
 unique_tracks.txt
 !jars/*
-src/dbUtilities/Inserts.java
 .classpath
