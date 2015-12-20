@@ -15,6 +15,7 @@ public abstract class AbstractTagFilter implements TagFilter {
 	}
 
 	@Override
+	synchronized
 	public Tag[] filterTags(Tag[] tags) {
 		Tag[] newTags = filter(tags);
 		if (chainFilter != null)
