@@ -105,13 +105,13 @@ public class FillDatabase {
 
 	public static void insertTracksFromAPIToDatabase(String file, int maxSongs)
 			throws IOException, InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException {
+			ClassNotFoundException, SQLException, InterruptedException {
 		/**
 		 * Used to insert up to maxSongs in the database.
 		 */
 
-		List<TrackAllInfo> tracks = TrackInfoCrawler.crawl("unique_tracks.txt",
-				0, maxSongs);
+		List<TrackAllInfo> tracks = TrackInfoCrawler.crawl_threaded("unique_tracks.txt", 
+				0, maxSongs, 18);
 		Inserts inserts = new Inserts();
 
 		for (TrackAllInfo track : tracks) {
