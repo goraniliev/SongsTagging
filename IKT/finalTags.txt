@@ -2,7 +2,7 @@ love lovesongs affection appreciation devotion emotion foundness friendship infa
 war battle bloodshed combat conflict hostility strife strike struggle warfare
 violence assault attack brutality clash cruelty disorder disturbance fighting rampage terrorism scream
 happy humor mellow cheerful contented delighted ecstatic elated glad joyful joyous jubilant lively merry overjoyed peaceful pleasant pleased thrilled upbeat
-teen juvenile youngster
+teen juvenile youngster youth
 kids baby child infant youth childhood
 christmas xmas yule yuletide
 dream fairytale absurd fictional imaginative unreal illusory fantasy delusion nightmare magic
@@ -12,21 +12,21 @@ tragic appalling awful calamitous cataclysmic deadly deplorable destructive dire
 chill meditation chillout relish savor fancy cool frigid refreshing relax calm soften tranquilize fun pleasure leisurely positive
 study class course
 pop britpop electropop rockpop europop indiepop
-rock rockabilly punkrock britrock rocksteady folkrock
+rock rockabilly punkrock britrock rocksteady folkrock rockpop
 metal metalcore
-heavy
-folk culture
+heavy hard
+folk culture folkrock
 jazz
 retro old oldschool
 blues
-regge reggae rege dub
+reggae regge rege dub
 electronic
 gothic
-indie
+indie indiepop
 classic humanistic academic
 soul
 instrumental
-punk
+punk punkrock
 rnb rb r b
 rap
 party celebration blowout fun prom social entertainment feast altparty
@@ -74,4 +74,4 @@ lounge bar pub restaurant urban
 summer summertime vacation
 garage
 night sleep asleep
-halloween
+halloween halloweenhead
