@@ -1,13 +1,13 @@
-package Validation;
+package validation;
 
 import prediction.Predict;
 import prediction.PredictFactory;
 import prediction.helper.HotnessListTags;
 
-public class TenFoldValidator implements Validator {
+public class StandardValidator implements Validator {
 	Predict predict;
 	
-	public TenFoldValidator() {
+	public StandardValidator() {
 		predict = PredictFactory.getPredict();
 	}
 	
@@ -34,7 +34,7 @@ public class TenFoldValidator implements Validator {
 	}
 	
 	public static void main(String[] args) {
-		Validator validator = new TenFoldValidator();
+		Validator validator = new StandardValidator();
 		validator.validate();
 	}
 }
