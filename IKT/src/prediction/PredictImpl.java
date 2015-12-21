@@ -28,7 +28,7 @@ public class PredictImpl implements Predict {
 		tagSongs = new HashMap<Integer, Map<Integer, Double>>();
 		calculateNumberOfTags();
 	}
-	
+
 	public void calculateNumberOfTags() {
 		for (Map.Entry<String, Integer> tag : finalTags.entrySet()) {
 			Map<Integer, Double> songs = dataAccess.getTracks(tag.getValue());
@@ -43,7 +43,7 @@ public class PredictImpl implements Predict {
 			}
 		}
 	}
-	
+
 	@Override
 	public Double predictHotness(Tag[] tags) {
 		Integer songModule = tags.length;
@@ -61,20 +61,24 @@ public class PredictImpl implements Predict {
 					hotnessTag.addTag();
 			}
 		}
-		
+
 		double hotness = 0;
 		double similaritySum = 0;
-		
+		System.out.println(songHotness.size());
 		for (Map.Entry<Integer, HotnessTags> song : songHotness.entrySet()) {
-			double similarity = measure.getSimilarity(songModule, songTags.get(song.getKey()).getTags().size(), song.getValue().getNumberOfTags());
-			hotness += song.getValue().getHotness() * similarity;
-			similaritySum += similarity;
+			double similarity = measure.getSimilarity(songModule, songTags.get(song.getKey()).getTags().size(),
+					song.getValue().getNumberOfTags());
+			if (similarity > 0.3) {
+				System.out.println(similarity);
+				hotness += song.getValue().getHotness() * similarity;
+				similaritySum += similarity;
+			}
 		}
 		if (similaritySum == 0)
 			return 0.0;
-		return hotness/similaritySum;
+		return hotness / similaritySum;
 	}
-	
+
 	public double predictHotness(List<Integer> tags) {
 		Integer songModule = tags.size();
 		if (songModule == 0)
@@ -91,27 +95,32 @@ public class PredictImpl implements Predict {
 					hotnessTag.addTag();
 			}
 		}
-		
+
 		double hotness = 0;
 		double similaritySum = 0;
-		
+
 		for (Map.Entry<Integer, HotnessTags> song : songHotness.entrySet()) {
-			double similarity = measure.getSimilarity(songModule, songTags.get(song.getKey()).getTags().size(), song.getValue().getNumberOfTags());
-			hotness += song.getValue().getHotness() * similarity;
-			similaritySum += similarity;
+			double similarity = measure.getSimilarity(songModule, songTags.get(song.getKey()).getTags().size(),
+					song.getValue().getNumberOfTags());
+			if (similarity > 0.8) {
+				hotness += song.getValue().getHotness() * similarity;
+				similaritySum += similarity;
+			}
 		}
 		if (similaritySum == 0)
 			return 0.0;
-		return hotness/similaritySum;
+		return hotness / similaritySum;
 	}
-	
+
 	public Map<Integer, HotnessListTags> getSongTags() {
 		return songTags;
 	}
-	
+
 	public static void main(String[] args) {
 		Predict predict = new PredictImpl();
-		Tag[] tags = {new Tag("love", null, null), new Tag("femal", null, null)};
+		Tag[] tags = { new Tag("love", null, null), new Tag("instrument", null, null), new Tag("happi", null, null),
+				new Tag("classic", null, null), new Tag("dream", null, null), new Tag("loung", null, null),
+				new Tag("war", null, null), new Tag("orchestr", null, null) };
 		System.out.println(predict.predictHotness(tags));
 	}
 }
