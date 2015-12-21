@@ -46,7 +46,7 @@ public class PredictionCachedDataAccess implements PredictionDataAccess {
 		if (result != null)
 			return result;
 		try {
-			result =  selects.songsHotnessForTag(tag);
+			result = selects.songsHotnessForTag(tag);
 			tracks.put(tag, result);
 			return result;
 		} catch (SQLException e) {
