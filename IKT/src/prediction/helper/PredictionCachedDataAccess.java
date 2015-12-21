@@ -6,10 +6,12 @@ import java.util.Map;
 
 import dbUtilities.Selects;
 
-public class PredictionDirectDataAccess implements PredictionDataAccess {
+public class PredictionCachedDataAccess implements PredictionDataAccess {
 	private Selects selects;
+	private Map<Integer, Map<Integer, Double>> tracks;
 	
-	public PredictionDirectDataAccess() {
+	public PredictionCachedDataAccess() {
+		tracks = new HashMap<Integer, Map<Integer, Double>>();
 		try {
 			selects = new Selects();
 		} catch (InstantiationException e) {
@@ -26,7 +28,7 @@ public class PredictionDirectDataAccess implements PredictionDataAccess {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public Map<String, Integer> getTags() {
 		try {
@@ -40,13 +42,17 @@ public class PredictionDirectDataAccess implements PredictionDataAccess {
 
 	@Override
 	public Map<Integer, Double> getTracks(Integer tag) {
+		Map<Integer, Double> result = tracks.get(tag);
+		if (result != null)
+			return result;
 		try {
-			return selects.songsHotnessForTag(tag);
+			result =  selects.songsHotnessForTag(tag);
+			tracks.put(tag, result);
+			return result;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new HashMap<Integer, Double>();
 	}
-	
 }

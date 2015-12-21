@@ -58,6 +58,7 @@ public class PredictImpl implements Predict {
 		double similaritySum = 0;
 		
 		for (Map.Entry<Integer, HotnessTags> song : songHotness.entrySet()) {
+			System.out.println(song.getValue().getHotness());
 			double similarity = measure.getSimilarity(songModule, songNumberOfTags.get(song.getKey()), song.getValue().getNumberOfTags());
 			hotness += song.getValue().getHotness() * similarity;
 			similaritySum += similarity;
@@ -69,7 +70,7 @@ public class PredictImpl implements Predict {
 	
 	public static void main(String[] args) {
 		Predict predict = new PredictImpl();
-		Tag[] tags = {new Tag("love", null, null), new Tag("war", null, null)};
+		Tag[] tags = {new Tag("love", null, null), new Tag("rock", null, null)};
 		System.out.println(predict.predictHotness(tags));
 	}
 }
