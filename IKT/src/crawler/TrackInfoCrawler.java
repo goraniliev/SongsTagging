@@ -77,7 +77,7 @@ public class TrackInfoCrawler {
 		System.out.println(tracks);
 		*/
 		
-		List<TrackAllInfo> tracks = crawl_threaded("unique_tracks.txt", 0, 499, 10);
+		List<TrackAllInfo> tracks = crawl_threaded("unique_tracks.txt", 0, 499, 18);
 		System.out.println("Number of tracks: " + tracks.size());
 		System.out.println(tracks);
 	}
@@ -99,6 +99,10 @@ public class TrackInfoCrawler {
 			counter++;
 			
 			String[] parts = line.split("<SEP>");
+			if (parts.length != 4) {
+				continue;
+			}
+			
 			trackParameters.add(new String[] { parts[2], parts[3] });
 		}
 		br.close();
