@@ -1,11 +1,14 @@
 package prediction;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
-import prediction.helper.HotnessListTags;
+import prediction.helper.TrackInfo;
 import prediction.helper.HotnessTags;
 import prediction.helper.PredictionDataAccess;
 import prediction.helper.PredictionDataAccessFactory;
@@ -15,95 +18,60 @@ import utility.Tag;
 
 public class PredictImpl implements Predict {
 	private PredictionDataAccess dataAccess;
-	private Map<String, Integer> finalTags;
-	private Map<Integer, HotnessListTags> songTags;
-	private Map<Integer, Map<Integer, Double>> tagSongs;
+	private Set<Integer> modelSongs;
 	private SimilarityMeasure measure;
+	private double similarityTrashold;
 
-	public PredictImpl() {
+	public PredictImpl(Set<Integer> model, double similarityTrashold) {
 		dataAccess = PredictionDataAccessFactory.getDataAccess();
-		finalTags = dataAccess.getTags();
 		measure = SimilarityFactory.getSimilarityMeasure();
-		songTags = new HashMap<Integer, HotnessListTags>();
-		tagSongs = new HashMap<Integer, Map<Integer, Double>>();
-		calculateNumberOfTags();
+		modelSongs = model;
+		this.similarityTrashold = similarityTrashold;
 	}
-
-	public void calculateNumberOfTags() {
-		for (Map.Entry<String, Integer> tag : finalTags.entrySet()) {
-			Map<Integer, Double> songs = dataAccess.getTracks(tag.getValue());
-			tagSongs.put(tag.getValue(), songs);
-			for (Map.Entry<Integer, Double> song : songs.entrySet()) {
-				HotnessListTags listTags = songTags.get(song.getKey());
-				if (listTags == null) {
-					listTags = new HotnessListTags(song.getValue());
-					songTags.put(song.getKey(), listTags);
-				}
-				listTags.addTag(tag.getValue());
-			}
-		}
+	
+	public PredictImpl(Set<Integer> model) {
+		this(model, 0.5);
 	}
 
 	@Override
 	public Double predictHotness(Tag[] tags) {
-		Integer songModule = tags.length;
-		if (songModule == 0)
-			return 0.0;
-		Map<Integer, HotnessTags> songHotness = new HashMap<Integer, HotnessTags>();
-		HotnessTags hotnessTag;
-		for (Tag tag : tags) {
-			Map<Integer, Double> songs = dataAccess.getTracks(finalTags.get(tag.getName()));
-			for (Map.Entry<Integer, Double> song : songs.entrySet()) {
-				hotnessTag = songHotness.get(song.getKey());
-				if (hotnessTag == null)
-					songHotness.put(song.getKey(), new HotnessTags(song.getValue()));
-				else
-					hotnessTag.addTag();
-			}
-		}
-
-		double hotness = 0;
-		double similaritySum = 0;
-		System.out.println(songHotness.size());
-		for (Map.Entry<Integer, HotnessTags> song : songHotness.entrySet()) {
-			double similarity = measure.getSimilarity(songModule, songTags.get(song.getKey()).getTags().size(),
-					song.getValue().getNumberOfTags());
-			if (similarity > 0.3) {
-				System.out.println(similarity);
-				hotness += song.getValue().getHotness() * similarity;
-				similaritySum += similarity;
-			}
-		}
-		if (similaritySum == 0)
-			return 0.0;
-		return hotness / similaritySum;
+		List<Integer> tagIds = new LinkedList<Integer>();
+		for (Tag tag : tags) 
+			tagIds.add(dataAccess.getTagId(tag.getName()));
+		return predictHotness(tagIds);
 	}
 
-	public double predictHotness(List<Integer> tags) {
+	public Double predictHotness(List<Integer> tags) {
 		Integer songModule = tags.size();
 		if (songModule == 0)
 			return 0.0;
-		Map<Integer, HotnessTags> songHotness = new HashMap<Integer, HotnessTags>();
+		List<Integer> songs;
+		Map<Integer, HotnessTags> finalSongs = new HashMap<Integer, HotnessTags>();
 		HotnessTags hotnessTag;
 		for (Integer tag : tags) {
-			Map<Integer, Double> songs = tagSongs.get(tag);
-			for (Map.Entry<Integer, Double> song : songs.entrySet()) {
-				hotnessTag = songHotness.get(song.getKey());
-				if (hotnessTag == null)
-					songHotness.put(song.getKey(), new HotnessTags(song.getValue()));
-				else
-					hotnessTag.addTag();
+			songs = dataAccess.getTracks(tag);
+			for (Integer song : songs) {
+				if (modelSongs.contains(song)) {
+					hotnessTag = finalSongs.get(song);
+					if (hotnessTag == null) {
+						hotnessTag = new HotnessTags();
+						finalSongs.put(song, hotnessTag);
+					} else
+						hotnessTag.addTag();
+				}
 			}
 		}
 
 		double hotness = 0;
 		double similaritySum = 0;
+		TrackInfo trackInfo;
 
-		for (Map.Entry<Integer, HotnessTags> song : songHotness.entrySet()) {
-			double similarity = measure.getSimilarity(songModule, songTags.get(song.getKey()).getTags().size(),
+		for (Entry<Integer, HotnessTags> song : finalSongs.entrySet()) {
+			trackInfo = dataAccess.getTackInfo(song.getKey());
+			double similarity = measure.getSimilarity(songModule, trackInfo.getNumerOfTags(),
 					song.getValue().getNumberOfTags());
-			if (similarity > 0.8) {
-				hotness += song.getValue().getHotness() * similarity;
+			if (similarity > similarityTrashold) {
+				hotness += trackInfo.getHotness() * similarity;
 				similaritySum += similarity;
 			}
 		}
@@ -111,16 +79,22 @@ public class PredictImpl implements Predict {
 			return 0.0;
 		return hotness / similaritySum;
 	}
+	
+	
 
-	public Map<Integer, HotnessListTags> getSongTags() {
-		return songTags;
+	@Override
+	public Double predictHotness(String[] tags) {
+		List<Integer> tagIds = new LinkedList<Integer>();
+		for (String tag : tags) 
+			tagIds.add(dataAccess.getTagId(tag));
+		return predictHotness(tagIds);
 	}
 
 	public static void main(String[] args) {
-		Predict predict = new PredictImpl();
-		Tag[] tags = { new Tag("love", null, null), new Tag("instrument", null, null), new Tag("happi", null, null),
-				new Tag("classic", null, null), new Tag("dream", null, null), new Tag("loung", null, null),
-				new Tag("war", null, null), new Tag("orchestr", null, null) };
-		System.out.println(predict.predictHotness(tags));
+//		Predict predict = new PredictImpl();
+//		Tag[] tags = { new Tag("love", null, null), new Tag("instrument", null, null), new Tag("happi", null, null),
+//				new Tag("classic", null, null), new Tag("dream", null, null), new Tag("loung", null, null),
+//				new Tag("war", null, null), new Tag("orchestr", null, null) };
+//		System.out.println(predict.predictHotness(tags));
 	}
 }

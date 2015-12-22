@@ -1,31 +1,39 @@
 package validation;
 
+import java.util.Set;
+
 import prediction.Predict;
 import prediction.PredictFactory;
-import prediction.helper.HotnessListTags;
+import prediction.helper.PredictionDataAccess;
+import prediction.helper.PredictionDataAccessFactory;
+import prediction.helper.TrackInfo;
 
 public class StandardValidator implements Validator {
-	Predict predict;
+	private Predict predict;
+	private PredictionDataAccess dataAccess;
 	
 	public StandardValidator() {
-		predict = PredictFactory.getPredict();
+		dataAccess = PredictionDataAccessFactory.getDataAccess();
 	}
 	
 	@Override
 	public void validate() {
+		Set<Integer> songs = dataAccess.getAllTracks();
+		predict = PredictFactory.getPredict(songs);
 		double predicted = 0;
 		double original = 0;
 		double error = 0;
 		double pom;
-		int numberOfSongs = predict.getSongTags().size();
+		int numberOfSongs = songs.size();
 		int i = 0;
 		int step = numberOfSongs / 100;
-		for (HotnessListTags listTags : predict.getSongTags().values()){
+		for (Integer song : songs){
 			if (i % step == 0) 
 				System.out.println(i / step + "%");
 			i++;
-			predicted = predict.predictHotness(listTags.getTags());
-			original = listTags.getHotness();
+			TrackInfo info = dataAccess.getTackInfo(song);
+			predicted = predict.predictHotness(info.getTags());
+			original = info.getHotness();
 			pom = predicted - original;
 			error += pom * pom;
 		}
