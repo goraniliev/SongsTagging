@@ -109,7 +109,7 @@ public class FillDatabase extends DbAccess {
 		return bestCoeff;
 	}
 
-	static void insertSongsAndTags(StringBuilder songsBuilder, StringBuilder songsTagBuilder) throws SQLException {
+	void insertSongsAndTags(StringBuilder songsBuilder, StringBuilder songsTagBuilder) throws SQLException {
 		
 		String insertSongs = "insert into song(idsong, name, artist, numPlays, numListeners, hotness) values " + 
 								songsBuilder.substring(0, songsBuilder.length() - 1).toString() + ";";
