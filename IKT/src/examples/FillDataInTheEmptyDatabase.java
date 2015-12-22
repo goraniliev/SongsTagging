@@ -15,7 +15,22 @@ public class FillDataInTheEmptyDatabase {
 //			FillDatabase.insertTracksFromAPIToDatabase("unique_tracks.txt", start, start + 99999);
 //		}
 		FillDatabase fd = new FillDatabase();
-		fd.insertTracksFromAPIToDatabase("unique_tracks.txt", 0, 10000, 100);
+		fd.insertTags();
+		
+		//Goran		--> Estimated to finish in less than 4.5 hours
+//		fd.insertTracksFromAPIToDatabase("unique_tracks.txt", 0, 350000, 100);
+		
+		//Kire
+//		fd.insertTracksFromAPIToDatabase("unique_tracks.txt", 350001, 700000, 100);
+		
+		//Viki
+//		fd.insertTracksFromAPIToDatabase("unique_tracks.txt", 700001, 850000, 100);
+		
+		//Ace
+//		fd.insertTracksFromAPIToDatabase("unique_tracks.txt", 850001, 1000000, 100);
+		
+		
+		
 		System.out.println("Database built took " + (new Date().getTime() - s) + " miliseconds");
 	}
 	
