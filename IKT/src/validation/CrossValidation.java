@@ -41,11 +41,13 @@ public class CrossValidation implements Validator {
 	}
 	
 	public double validate(Set<Integer> model, Set<Integer> subset) {
+		double eps = 0.0000000001;
 		predict = PredictFactory.getPredict(model, similarityTrashold);
 		double predicted = 0;
 		double totalErr = 0.0;
 		int step = subset.size() / 100;
 		int i = 0;
+		int count = 0;
 		for (Integer song : subset) {
 			if (i % step == 0) {
 				System.out.println((i / step) + "%");
@@ -53,10 +55,23 @@ public class CrossValidation implements Validator {
 			i++;
 			TrackInfo info = dataAccess.getTackInfo(song);
 			predicted = predict.predictHotness(info.getTags());
-			totalErr += (predicted - info.getHotness()) * (predicted - info.getHotness());
+//			totalErr += (predicted - info.getHotness()) * (predicted - info.getHotness());
+			double absError = Math.abs(predicted - info.getHotness());
+			
+			// This is almost equal to the relative mean squared error which would be absError / (predicted + info.getHotness()) 
+			// when the differences between the predicted and true value are not too very big 
+//			if(absError > eps) {
+//				totalErr += 2 * absError / (predicted + info.getHotness());
+//			}
+			
+			if(info.getHotness() < eps) {
+				continue;
+			}
+			totalErr += absError / info.getHotness();
+			count++;
 		}
 		
-		return totalErr/subset.size();
+		return totalErr/count;
 	}
 	
 	public static void main(String[] args) {
