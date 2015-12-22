@@ -37,7 +37,7 @@ public class TenFoldValidator implements Validator {
 			System.out.println(((i + 1)*10) + "%");
 		}
 		
-		System.out.println(dist / 10);
+		System.out.println("Result: " + dist / 10);
 	}
 	
 	public double validate(Set<Integer> model, Set<Integer> subset) {

@@ -26,6 +26,7 @@ public class CrossValidation implements Validator {
 	public void validate() {
 		Random random = new Random();
 		Set<Integer> songs = dataAccess.getAllTracks();
+		System.out.println(songs.size());
 		List<Integer> songsList = new ArrayList<>(songs);
 		int size = songsList.size() - 1;
 		Set<Integer> model = new HashSet<Integer>();
@@ -34,15 +35,22 @@ public class CrossValidation implements Validator {
 			model.add(songsList.get(random.nextInt(size)));
 		}
 		subSet.removeAll(model);
-			
-		System.out.println(validate(model, subSet));
+		System.out.println("Result: " + validate(model, subSet));
+		System.out.println("Model: " + ((model.size() * 1.0 / songs.size()) * 100) + "%");
+		System.out.println("Model: " + ((subSet.size() * 1.0 / songs.size()) * 100) + "%");
 	}
 	
 	public double validate(Set<Integer> model, Set<Integer> subset) {
 		predict = PredictFactory.getPredict(model, similarityTrashold);
 		double predicted = 0;
 		double totalErr = 0.0;
+		int step = subset.size() / 100;
+		int i = 0;
 		for (Integer song : subset) {
+			if (i % step == 0) {
+				System.out.println((i / step) + "%");
+			}
+			i++;
 			TrackInfo info = dataAccess.getTackInfo(song);
 			predicted = predict.predictHotness(info.getTags());
 			totalErr += (predicted - info.getHotness()) * (predicted - info.getHotness());
