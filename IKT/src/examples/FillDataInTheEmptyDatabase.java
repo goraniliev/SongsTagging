@@ -2,6 +2,7 @@ package examples;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import dbUtilities.FillDatabase;
 
@@ -9,6 +10,14 @@ import dbUtilities.FillDatabase;
 public class FillDataInTheEmptyDatabase {
 	// Example how to fill the database from the file.
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, SQLException, InterruptedException {
-		FillDatabase.insertTracksFromAPIToDatabase("unique_tracks.txt", 10);
+		long s = new Date().getTime();
+//		for(int start = 0; start < 1000000; start += 100000) {
+//			FillDatabase.insertTracksFromAPIToDatabase("unique_tracks.txt", start, start + 99999);
+//		}
+		FillDatabase fd = new FillDatabase();
+		fd.insertTracksFromAPIToDatabase("unique_tracks.txt", 0, 10000, 100);
+		System.out.println("Database built took " + (new Date().getTime() - s) + " miliseconds");
 	}
+	
+
 }
